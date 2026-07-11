@@ -1,31 +1,17 @@
+// routes/categoryRoutes.js
 const express = require('express');
 const router = express.Router();
-const Category = require('../models/category'); // Matches your lowercase filename
+const { validateCategory } = require('../middleware/validators'); // Import it here
+const {
+  getAllCategories,
+  getCategoryById,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} = require('../controllers/categoryController');
 
-router.get('/', async (req, res) => {
-    try {
-        const categories = await Category.find();
-        res.status(200).json(categories);
-    } catch (error) {
-        res.status(500).json({ message: 'Server error fetching categories', error: error.message });
-    }
-});
-
-router.post('/', async (req, res) => {
-    try {
-        const { name, description } = req.body;
-        
-        if (!name) {
-            return res.status(400).json({ message: 'Category name is required' });
-        }
-
-        const newCategory = new Category({ name, description });
-        await newCategory.save();
-        
-        res.status(201).json({ message: 'Category created successfully', category: newCategory });
-    } catch (error) {
-        res.status(500).json({ message: 'Server error creating category', error: error.message });
-    }
-});
+// Inject it into your POST route pipeline
+router.route('/').get(getAllCategories).post(validateCategory, createCategory);
+router.route('/:id').get(getCategoryById).patch(updateCategory).delete(deleteCategory);
 
 module.exports = router;
