@@ -1,52 +1,54 @@
-// models/product.model.js
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'A product must have a name'],
-      trim: true,
+      required: [true, 'A product must have a name.'],
+      trim: true
     },
     description: {
       type: String,
-      trim: true,
-    },
-    category: {
-      type: String,
-      required: [true, 'A product must belong to a category'],
-      trim: true,
+      required: [true, 'A product must have a description.'],
+      trim: true
     },
     price: {
-      type: Number, // 👈 Ensures numerical range queries work flawlessly
-      required: [true, 'A product must have a price'],
-      min: [0, 'Price cannot be negative'],
+      type: Number,
+      required: [true, 'A product must have a price.'],
+      min: [0, 'Price cannot be negative.']
     },
     stock: {
-      type: Number, // 👈 Essential for your checkout stock validations
-      required: [true, 'A product must specify stock levels'],
-      default: 0,
-      min: [0, 'Stock cannot be negative'],
-    },
-    ratings: {
       type: Number,
-      default: 4.5,
-      min: [1, 'Rating must be at least 1.0'],
-      max: [5, 'Rating cannot exceed 5.0'],
+      required: [true, 'A product must have a stock level.'],
+      min: [0, 'Stock cannot be negative.'],
+      default: 0
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      select: false, // Hides this field from standard API JSON responses
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: [true, 'A product must belong to a category.']
     },
+    images: {
+      type: [String],
+      default: []
+    },
+    inStock: {
+      type: Boolean,
+      default: true
+    }
   },
   {
-    timestamps: true, // Automatically adds dynamic createdAt and updatedAt stamps
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   }
 );
 
-// Define a text index to support name and category text searches natively
-productSchema.index({ name: 'text', category: 'text' });
+productSchema.pre('save', async function () {
+  const currentStock = this.stock ?? 0;
+  this.inStock = currentStock > 0;
+  // No next() or callback parameter needed! Mongoose resolves this automatically.
+});
 
 const Product = mongoose.model('Product', productSchema);
 

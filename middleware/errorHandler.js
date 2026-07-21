@@ -1,36 +1,38 @@
-// middleware/errorHandler.js
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
-// Transformation helper for MongoDB structural ID mismatches
-const handleCastErrorDB = (err) => {
-  const message = `Invalid format for resource ${err.path}: ${err.value}. Please verify your tracking or resource ID format.`;
-  return new AppError(message, 400); // 400 Bad Request matches invalid input syntax
-};
+const errorHandler = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
 
-module.exports = (err, req, res, next) => {
-  // Establish baseline default error states
   let error = { ...err };
   error.message = err.message;
-  error.statusCode = err.statusCode || 500;
-  error.status = err.status || 'error';
 
-  // 🔍 Check for native MongoDB/Mongoose formatting exceptions
   if (err.name === 'CastError') {
-    error = handleCastErrorDB(error);
+    error = new AppError(`Invalid ${err.path}: ${err.value}`, 400);
   }
 
-  // A. Trusted Operational Failures: Send clean structured JSON back to Postman
+  if (err.code === 11000) {
+    const value = Object.values(err.keyValue)[0];
+    error = new AppError(`Duplicate field value: "${value}". Please use another value.`, 400);
+  }
+
+  if (err.name === 'ValidationError') {
+    const errors = Object.values(err.errors).map((el) => el.message);
+    error = new AppError(`Invalid input data: ${errors.join('. ')}`, 400);
+  }
+
   if (error.isOperational) {
-    return res.status(error.statusCode).json({
+    res.status(error.statusCode).json({
       status: error.status,
-      message: error.message
+      message: error.message,
+    });
+  } else {
+    console.error('Unexpected Error:', err);
+    res.status(500).json({
+      status: 'error',
+      message: 'Something went wrong on the server',
     });
   }
-
-  // B. Programming Bugs / Unknown System Exceptions: Mask sensitive system states
-  console.error('💥 SYSTEM PIPELINE ERROR LOG:', err);
-  return res.status(500).json({
-    status: 'error',
-    message: 'Something went completely wrong inside our servers. Please try again later.'
-  });
 };
+
+module.exports = errorHandler;

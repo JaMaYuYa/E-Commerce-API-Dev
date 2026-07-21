@@ -1,42 +1,42 @@
-// seed.js
 require('dotenv').config();
 const mongoose = require('mongoose');
-const connectDB = require('./db/connect');
-
-// Import All Models
 const Category = require('./models/category.model');
 const Product = require('./models/product.model');
-const Cart = require('./models/cart.model');
-const Order = require('./models/order.model');
 
-const generateOrderNumber = () => {
-  return 'ORD' + Math.floor(100000 + Math.random() * 900000);
-};
+let Order;
+try {
+  Order = require('./models/order.model');
+} catch (err) {
+  Order = null;
+}
 
-const seedDB = async () => {
+const seedDatabase = async () => {
   try {
-    // 1. Establish Database Connection
-    await connectDB();
+    console.log('Connecting to database...');
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Database connected successfully!');
 
-    // 2. Cleanup Data in Correct Logical Order
-    console.log('Cleaning up existing collections...');
-    await Order.deleteMany({});
-    await Cart.deleteMany({});
+    console.log('Cleaning up old database records...');
+    if (Order) {
+      await Order.deleteMany({});
+      console.log('Old Orders deleted');
+    }
     await Product.deleteMany({});
+    console.log('Old Products deleted');
     await Category.deleteMany({});
+    console.log('Old Categories deleted');
 
-    // 3. Seed Categories Collection (3 distinct categories)
-    console.log('Seeding categories...');
-    const categories = await Category.insertMany([
-      { name: 'Electronics', description: 'Electronic gadgets, computing hardware, and modern devices', slug: 'electronics' },
-      { name: 'Clothing', description: 'Premium apparel, textiles, and street fashion accessories', slug: 'clothing' },
-      { name: 'Books', description: 'Educational materials, bestseller fiction, and sci-fi books', slug: 'books' },
+    console.log('Inserting sample categories...');
+    const categories = await Category.create([
+      { name: 'Electronics', description: 'Gadgets and devices' },
+      { name: 'Clothing', description: 'Clothing and apparel' },
+      { name: 'Books', description: 'Written books and educational literature' }
     ]);
+    console.log(`Added ${categories.length} categories.`);
 
     const [electronics, clothing, books] = categories;
 
-    // 4. Seed Products Collection (6 products in each category = 18 total)
-    console.log('Seeding products (6 per category)...');
+    console.log('Inserting sample products...');
     const productsList = [
       // === ELECTRONICS (6 Products) ===
       {
@@ -45,7 +45,7 @@ const seedDB = async () => {
         price: 699,
         stock: 50,
         category: electronics._id,
-        images: ['smartphone.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -54,7 +54,7 @@ const seedDB = async () => {
         price: 1299,
         stock: 30,
         category: electronics._id,
-        images: ['laptop.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -63,7 +63,7 @@ const seedDB = async () => {
         price: 199,
         stock: 45,
         category: electronics._id,
-        images: ['headphones.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -72,7 +72,7 @@ const seedDB = async () => {
         price: 249,
         stock: 40,
         category: electronics._id,
-        images: ['smartwatch.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -81,7 +81,7 @@ const seedDB = async () => {
         price: 89,
         stock: 75,
         category: electronics._id,
-        images: ['speaker.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -90,7 +90,7 @@ const seedDB = async () => {
         price: 450,
         stock: 20,
         category: electronics._id,
-        images: ['tablet.jpg'],
+        images: [],
         inStock: true
       },
 
@@ -101,7 +101,7 @@ const seedDB = async () => {
         price: 19,
         stock: 100,
         category: clothing._id,
-        images: ['tshirt.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -110,7 +110,7 @@ const seedDB = async () => {
         price: 49,
         stock: 60,
         category: clothing._id,
-        images: ['jeans.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -119,7 +119,7 @@ const seedDB = async () => {
         price: 39,
         stock: 85,
         category: clothing._id,
-        images: ['hoodie.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -128,7 +128,7 @@ const seedDB = async () => {
         price: 79,
         stock: 35,
         category: clothing._id,
-        images: ['jacket.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -137,7 +137,7 @@ const seedDB = async () => {
         price: 95,
         stock: 50,
         category: clothing._id,
-        images: ['sneakers.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -146,7 +146,7 @@ const seedDB = async () => {
         price: 12,
         stock: 150,
         category: clothing._id,
-        images: ['socks.jpg'],
+        images: [],
         inStock: true
       },
 
@@ -157,7 +157,7 @@ const seedDB = async () => {
         price: 15,
         stock: 80,
         category: books._id,
-        images: ['novel.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -166,7 +166,7 @@ const seedDB = async () => {
         price: 25,
         stock: 40,
         category: books._id,
-        images: ['science.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -175,7 +175,7 @@ const seedDB = async () => {
         price: 30,
         stock: 25,
         category: books._id,
-        images: ['history.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -184,7 +184,7 @@ const seedDB = async () => {
         price: 22,
         stock: 55,
         category: books._id,
-        images: ['cookbook.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -193,7 +193,7 @@ const seedDB = async () => {
         price: 18,
         stock: 90,
         category: books._id,
-        images: ['fantasy.jpg'],
+        images: [],
         inStock: true
       },
       {
@@ -202,71 +202,26 @@ const seedDB = async () => {
         price: 28,
         stock: 30,
         category: books._id,
-        images: ['biography.jpg'],
+        images: [],
         inStock: true
       }
     ];
 
-    const seededProducts = await Product.insertMany(productsList);
-    
-    // Pick specific references for cart/order samples
-    const prodSmartphone = seededProducts[0];
-    const prodTshirt = seededProducts[6];
-    const prodLaptop = seededProducts[1];
+    const products = await Product.create(productsList);
+    console.log(`Added ${products.length} products.`);
 
-    // 5. Seed Global Active Cart
-    console.log('Seeding active cart state...');
-    await Cart.create({
-      items: [
-        {
-          product: prodSmartphone._id,
-          quantity: 1,
-          price: prodSmartphone.price
-        },
-        {
-          product: prodTshirt._id,
-          quantity: 2,
-          price: prodTshirt.price
-        }
-      ],
-      totalPrice: (prodSmartphone.price * 1) + (prodTshirt.price * 2)
-    });
+    console.log('=========================================');
+    console.log('SEEDING COMPLETED SUCCESSFULLY!');
+    console.log(`- Total Categories Injected: ${categories.length}`);
+    console.log(`- Total Products Injected: ${products.length}`);
+    console.log('=========================================');
 
-    // 6. Seed Historical Order Logs
-    console.log('Seeding order history archives...');
-    await Order.create([
-      {
-        orderNumber: generateOrderNumber(),
-        items: [
-          {
-            product: prodLaptop._id,
-            name: prodLaptop.name,
-            price: prodLaptop.price,
-            quantity: 1
-          }
-        ],
-        totalPrice: prodLaptop.price,
-        status: 'delivered',
-        shippingAddress: '123 Innovation Way, Tech District'
-      }
-    ]);
-
-    console.log('\n===================================================');
-    console.log('🎉 DATABASE SEEDING COMPLETED SUCCESSFULLY!');
-    console.log(`- Created Categories : ${categories.length}`);
-    console.log(`- Created Products   : ${seededProducts.length} (6 per category)`);
-    console.log(`- Created Active Carts: 1`);
-    console.log(`- Created Order Logs  : 1`);
-    console.log('===================================================\n');
-
-  } catch (err) {
-    console.error('❌ Critical error encountered during database seeding:', err.message);
+  } catch (error) {
+    console.error('Error seeding database:', error);
   } finally {
     await mongoose.disconnect();
-    console.log('MongoDB disconnected cleanly.');
-    process.exit(0);
+    console.log('Disconnected from database safely.');
   }
 };
 
-// Execute Seeding Loop
-seedDB();
+seedDatabase();

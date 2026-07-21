@@ -1,21 +1,16 @@
-// routes/cartRoutes.js
 const express = require('express');
 const router = express.Router();
+const cartController = require('../controllers/cartController');
 
-// 🔍 Double-check the spelling inside this object destruction line!
-const { 
-  getCart, 
-  addItemToCart, 
-  removeCartItem 
-} = require('../controllers/cartController');
-
-// Define the endpoints cleanly
 router.route('/')
-  .get(getCart)
-  .post(addItemToCart);
+  .get(cartController.getCart)
+  .post(cartController.addItemToCart)
+  .patch(cartController.updateCartItem)
+  .delete(cartController.deleteCart);
 
-// 🔍 Check Line 14 here: make sure it says 'removeCartItem' and NOT an undefined name!
 router.route('/:productId')
-  .delete(removeCartItem);
+  .delete(cartController.removeCartItem)
+  .put(cartController.updateCartItem);
+
 
 module.exports = router;
