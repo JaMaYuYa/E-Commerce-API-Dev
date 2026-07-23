@@ -1,0 +1,492 @@
+{
+  "info": {
+    "_postman_id": "f401f494-013a-46ec-8931-ef113626ec24",
+    "name": "E-Commerce API Dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55897820",
+    "_collection_link": "https://go.postman.co/collection/55897820-f401f494-013a-46ec-8931-ef113626ec24?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Catagories",
+      "item": [
+        {
+          "name": "{{baseUrl}}/categories",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/categories/6a56ab0e9f1e87b81c7a7f11",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/6a56ab0e9f1e87b81c7a7f11",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                "6a56ab0e9f1e87b81c7a7f11"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/categories",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Toys\", \"description\": \"Fun toys for kids\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/categories/6a60eec0a626f57ae0a861e3",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"kids toys\"\r\n    }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories/6a60eec0a626f57ae0a861e3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                "6a60eec0a626f57ae0a861e3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/categories/6a58a0e4618d76440dad098a",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/6a60eec0a626f57ae0a861e3",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                "6a60eec0a626f57ae0a861e3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "{{baseUrl}}/products",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/products/6a56ab0e9f1e87b81c7a7f13",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/6a56ab0e9f1e87b81c7a7f13",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "6a56ab0e9f1e87b81c7a7f13"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/products",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Play station 5\",\r\n    \"description\":\"PS5 device and 2 consoles\",\r\n    \"price\":2000,\r\n    \"stock\":20,\r\n    \"category\":\"6a56af63caee8a872114e6ae\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/products/6a58a4cde4fa3e6e065a63c2",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"price\":\"2200\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/6a5fa00c28fcc53a6592b09f",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "6a5fa00c28fcc53a6592b09f"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/products/6a58a4cde4fa3e6e065a63c2",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/6a5fa00c28fcc53a6592b09f",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "products",
+                "6a5fa00c28fcc53a6592b09f"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "{{baseUrl}}/cart",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/cart",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": \"6a56ab0e9f1e87b81c7a7f14\", \"quantity\": 1}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/cart/6a56ab0e9f1e87b81c7a7f14",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"quantity\": 2}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart/6a56ab0e9f1e87b81c7a7f14",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart",
+                "6a56ab0e9f1e87b81c7a7f14"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/cart/6a56ab0e9f1e87b81c7a7f14",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart/6a56ab0e9f1e87b81c7a7f14",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart",
+                "6a56ab0e9f1e87b81c7a7f14"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/cart",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "{{baseUrl}}/cart Copy",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"productId\": \"6a56ab0e9f1e87b81c7a7f14\", \"quantity\": 1}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cart",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cart"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/orders",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"shippingAddress\": {\r\n    \"street\": \"123 El-Tahrir Street\",\r\n    \"city\": \"Cairo\",\r\n    \"country\": \"Egypt\"\r\n  },\r\n  \"paymentMethod\": \"CASH\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/orders",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "{{baseUrl}}/orders/6a5f9ec728fcc53a6592b09d",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/6a5f9ec728fcc53a6592b09d",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orders",
+                "6a5f9ec728fcc53a6592b09d"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
