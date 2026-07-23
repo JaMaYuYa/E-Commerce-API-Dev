@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const connectDB = require('./config/db'); 
 const Category = require('./models/category.model');
 const Product = require('./models/product.model');
 
@@ -13,7 +14,7 @@ try {
 const seedDatabase = async () => {
   try {
     console.log('Connecting to database...');
-    await mongoose.connect(process.env.MONGO_URI);
+    await connectDB(); 
     console.log('Database connected successfully!');
 
     console.log('Cleaning up old database records...');

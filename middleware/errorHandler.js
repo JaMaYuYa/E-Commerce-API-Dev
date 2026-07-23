@@ -7,15 +7,12 @@ const errorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
+  // Handle Invalid ObjectId format -> 404
   if (err.name === 'CastError') {
-    error = new AppError(`Invalid ${err.path}: ${err.value}`, 400);
+    error = new AppError(`No item found with ID: ${err.value}`, 404);
   }
 
-  if (err.code === 11000) {
-    const value = Object.values(err.keyValue)[0];
-    error = new AppError(`Duplicate field value: "${value}". Please use another value.`, 400);
-  }
-
+  // Handle Schema Enum/Validation failure -> 400
   if (err.name === 'ValidationError') {
     const errors = Object.values(err.errors).map((el) => el.message);
     error = new AppError(`Invalid input data: ${errors.join('. ')}`, 400);

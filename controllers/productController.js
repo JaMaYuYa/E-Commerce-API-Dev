@@ -25,7 +25,7 @@ exports.getAllProducts = asyncHandler(async (req, res, next) => {
     queryObj.$or = [{ name: searchRegex }, { description: searchRegex }];
   }
 
-  const products = await Product.find(queryObj).populate('category', 'name');
+  const products = await Product.find(queryObj).populate('category', 'name description');
   res.status(200).json({
     status: 'success',
     message: 'Products retrieved successfully',

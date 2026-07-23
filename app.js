@@ -1,6 +1,7 @@
 require('dotenv').config();
+
 const express = require('express');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 
 const categoryRouter = require('./routes/categoryRoutes');
 const productRouter = require('./routes/productRoutes');
@@ -13,6 +14,24 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 
 app.use(express.json());
+
+// Express 5 safe mongo sanitize middleware
+app.use((req, res, next) => {
+  const sanitize = (obj) => {
+    if (obj && typeof obj === 'object') {
+      for (const key in obj) {
+        if (key.startsWith('$') || key.includes('.')) {
+          delete obj[key];
+        } else {
+          sanitize(obj[key]);
+        }
+      }
+    }
+  };
+  if (req.body) sanitize(req.body);
+  if (req.params) sanitize(req.params);
+  next();
+});
 
 app.use('/api/categories', categoryRouter);
 app.use('/api/products', productRouter);
@@ -28,7 +47,7 @@ app.use(errorHandler);
 const start = async () => {
   try {
     console.log('Connecting to database...');
-    await mongoose.connect(process.env.MONGO_URI);
+    await connectDB();
     console.log('Database connected successfully!');
 
     const PORT = process.env.PORT || 5000;

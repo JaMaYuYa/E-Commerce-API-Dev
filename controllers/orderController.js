@@ -2,7 +2,7 @@ const Order = require('../models/order.model');
 const Cart = require('../models/cart.model');
 const Product = require('../models/product.model');
 const asyncHandler = require('../utils/asyncHandler');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/appError');
 
 const createOrder = asyncHandler(async (req, res, next) => {
   const userId = 'guest_user_123';
@@ -96,12 +96,19 @@ const updateOrderStatus = asyncHandler(async (req, res, next) => {
     return next(new AppError('Please provide a status value to update.', 400));
   }
 
+  // 1. Validate MongoDB ObjectId format -> 404 if invalid
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next(new AppError('No order found with that ID.', 404));
+  }
+
+  // 2. Perform the update
   const order = await Order.findByIdAndUpdate(
     req.params.id,
     { status },
     { new: true, runValidators: true }
   );
 
+  // 3. Check if document exists -> 404 if not found
   if (!order) {
     return next(new AppError('No order found with that ID.', 404));
   }
