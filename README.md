@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # E-Commerce Backend API 
 
 A backend API for an e-commerce website that manages categories, products, shopping carts, and order.
