@@ -201,4 +201,3 @@ ecommerce-api/
 ├── package.json        # Node.js project manifest, dependencies, and scripts
 ├── README.md           # Project documentation
 └── app.js           # Entry point for starting the Express HTTP server
->>>>>>> 52e473a3d5c0a7d848fcb77558beaa85642d5d85
